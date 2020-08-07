@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+""" Scissors Paper Rock
+
+This program is the Scissors Paper Rock (SPR) game written for the
+IMC Development test. It utilises PyQt5 to provide a UI for 
+a simple SPR game. The user may use the push buttons to select
+what they want to throw, the cpu will randomly generate an action
+and the scores will be tallied.
+
+Program should be run as follows:
+    python spr.py
+
+Author: James Sorrell
+"""
+
 import sys
 import time
 import threading
@@ -18,7 +33,8 @@ class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def queryNumberOfGames(self):
         """ Query the user for how many games they'd like to play """
-        i, okPressed = QInputDialog.getInt(self, "Games","How many games do you want to play?\nThe game will start immediately after this screen,\nSelect a throw option while the timer goes down!", 3, 0, 100, 1)
+        i, okPressed = QInputDialog.getInt(self, "Games","How many games do you want to play?\n" \
+        "The game will start immediately after this screen.\nSelect a throw option while the timer goes down!", 3, 0, 100, 1)
         if okPressed:
             self.games = i
             print("Games: {}".format(i))
@@ -33,9 +49,6 @@ class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_1.setEnabled(setting)
         self.pushButton_2.setEnabled(setting)
         self.pushButton_3.setEnabled(setting)
-        # self.pushButton_1.setStyleSheet("QPushButton::released")
-        # self.pushButton_2.setStyleSheet("QPushButton::released")
-        # self.pushButton_3.setStyleSheet("QPushButton::released")
         
     def generateCpuThrow(self):
         """ Generates and displays the CPU throw """
@@ -73,22 +86,30 @@ class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Cpu Wins!")
             self.setMiddleLabel(" LOSER")
             self.cpuScore += 1
+        # Update the scoreboard in the ui
         self.setScores()
 
     def gameHandler(self):
         """ Handles the game timing and UI """
+        # Reset player throw
         self.playerThrow = None
+        # Enable throw buttons
         self.setThrowButtons(True)
+        # Reset the middle label
         self.setMiddleLabel("IMC SPR")
+        # Start the countdown timer
         self.setLabel("Scissors")
         time.sleep(1.5)
         self.setLabel("Paper...")
         time.sleep(1.5)
+        # Wait for the player to throw something
         while self.playerThrow is None:
             print("Waiting for player to select a throw...")
             time.sleep(0.1)
         self.setLabel("Rock!")
+        # Uncheck the selected throw button
         self.uncheckButton()
+        # Disable throw buttons
         self.setThrowButtons(False)
         self.generateCpuThrow()
         self.checkResult()
@@ -114,6 +135,7 @@ class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     """ Program Entry Point """
+
     print("Welcome to IMC SPR")    
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
@@ -121,8 +143,12 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
 
+    # Query how many games the user
+    # wants to play at start-up
     ui.queryNumberOfGames()
-    
+
+    # We need to run the game in seperate thread
+    # so that the UI can still be used by the player    
     gameThread = threading.Thread(target=ui.runGames)
     gameThread.start()
 
