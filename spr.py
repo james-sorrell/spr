@@ -21,6 +21,7 @@ from MainWindow import Ui_MainWindow
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QWidget, QInputDialog
 
+
 class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
     """ Game Controller Class
     This inherits from the generated MainWindow class and 

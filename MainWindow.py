@@ -14,6 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        """ Generated code by QtDesigner, This creates
+        a framework for the SPR Application """
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         icon = QtGui.QIcon()
@@ -114,6 +116,7 @@ class Ui_MainWindow(object):
         self.buttonGroup.setExclusive(True)
 
     def retranslateUi(self, MainWindow):
+        """ Widget Initialisation """
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "SPR"))
         self.pushButton_1.setText(_translate("MainWindow", "Scissors"))
@@ -157,9 +160,6 @@ class Ui_MainWindow(object):
     def setRock(self):
         """ Set player throw to rock """
         self.playerThrow = 2
-        # self.pushButton_1.setStyleSheet("QPushButton::released")
-        # self.pushButton_2.setStyleSheet("QPushButton::released")
-        # self.pushButton_3.setStyleSheet("QPushButton::pressed")
 
     def showRock(self):
         """ Set rock image to player label """
@@ -172,9 +172,6 @@ class Ui_MainWindow(object):
     def setPaper(self):
         """ Set player throw to paper """
         self.playerThrow = 1 
-        # self.pushButton_1.setStyleSheet("QPushButton::released")
-        # self.pushButton_2.setStyleSheet("QPushButton::pressed")
-        # self.pushButton_3.setStyleSheet("QPushButton::released")
 
     def showPaper(self):
         """ Set paper image to player label """
@@ -187,9 +184,6 @@ class Ui_MainWindow(object):
     def setScissors(self):
         """ Set player throw to scissors """
         self.playerThrow = 0
-        # self.pushButton_1.setStyleSheet("QPushButton::pressed")
-        # self.pushButton_2.setStyleSheet("QPushButton::released")
-        # self.pushButton_3.setStyleSheet("QPushButton::released")
 
     def showScissors(self):
         """ Set scissors image to player label """
