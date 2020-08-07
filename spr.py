@@ -114,7 +114,7 @@ class GameController(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setThrowButtons(False)
         self.generateCpuThrow()
         self.checkResult()
-        time.sleep(2)
+        time.sleep(1)
 
     def runGames(self):
         """ Run through the provided number of games and control UI elements """
