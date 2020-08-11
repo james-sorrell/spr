@@ -138,8 +138,16 @@ class Ui_MainWindow(object):
             self.finalScreen.setPixmap(QtGui.QPixmap("img/L.png"))
         self.finalScreen.setScaledContents(True)
 
-    def setMiddleLabel(self, text):
+    def setMiddleLabel(self, state=None):
         """ Sets the middle label below the scoreboard. """
+        if state == "win":
+            text="WINNER"
+        elif state == "draw":
+            text="  DRAW"
+        elif state == "loss":
+            text=" LOSER"
+        else:
+            text="IMC SPR"
         _translate = QtCore.QCoreApplication.translate
         self.middleLabel.setText(_translate("MainWindow", text))
 
