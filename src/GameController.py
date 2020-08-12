@@ -31,31 +31,8 @@ class GameController():
             self.runGame()
             # Sleep a little so that the next game doesn't start abruptly
             time.sleep(2)
-        # Game is over, determine the overall winner
-        if self.playerScore > self.cpuScore:
-            c.debugPrint("Player is the big winner!", 0)
-            self.uic.setFinalScreen("win")
-        elif self.playerScore == self.cpuScore:
-            c.debugPrint("It was all a draw!", 0)
-            self.uic.setFinalScreen("draw")
-        else:
-            c.debugPrint("CPU wins! At least you're on the podium!", 0)
-            self.uic.setFinalScreen("loss")
-
-    def updateResults(self):
-        """ Determine who won, the player or the cpu """
-        if (self.uic.cpuThrow-1) % 3 == self.uic.playerThrow:
-            c.debugPrint("Player Wins!", 0)
-            state="win"
-            self.playerScore += 1
-        elif self.uic.cpuThrow == self.uic.playerThrow:
-            c.debugPrint("Draw", 0)
-            state="draw"
-        else:
-            c.debugPrint("Cpu Wins!", 0)
-            state="loss"
-            self.cpuScore += 1
-        self.uic.setMiddleLabel(state)
+        # End the match and display end splash
+        self.endMatch()
 
     def runGame(self):
         """ Ensures one game is run properly """
@@ -70,6 +47,55 @@ class GameController():
         # Set the UI to the post-game state
         self.uic.setToPostGame()
         # Check who won
-        self.updateResults()
+        self.checkResults()
+        self.uic.setMiddleLabel(self.gameState)
         # Update the scoreboard in the ui
         self.uic.setScoreboard(self.playerScore, self.cpuScore)
+
+    def endMatch(self):
+        """ Check who won and display end screen """
+        # Game is over, determine the overall winner
+        if self.playerScore > self.cpuScore:
+            c.debugPrint("Player is the big winner!", 0)
+            self.uic.setFinalScreen("win")
+        elif self.playerScore == self.cpuScore:
+            c.debugPrint("It was all a draw!", 0)
+            self.uic.setFinalScreen("draw")
+        else:
+            c.debugPrint("CPU wins! At least you're on the podium!", 0)
+            self.uic.setFinalScreen("loss")
+
+    def checkResults(self):
+        """ Determine who won, the player or the cpu """
+        # This code is a big more difficult to understand but
+        # the principle is simple, 
+        #
+        # Rock = 2
+        # Paper = 1
+        # Scissors = 0
+        #
+        # Note smaller number always beats the larger number
+        # therefore, if we subtract one from one class and 
+        # the numberas are the same, the class we subtracted
+        # from would have lost. The modulus exists such that
+        # we can 'wrap' the scissors class back to 2 -> (0-1)%3=2
+        # 
+        # Now we only need to check for two other states, draw
+        # and the other player winning. Since it is easy to check
+        # for a draw (classes are same) we should do this, then
+        # all remaining states will be from the third class which
+        # is CPU winning (as I checked for player winning first).
+        #
+        # Scores are updated on class variables
+        #
+        if (self.uic.cpuThrow-1) % 3 == self.uic.playerThrow:
+            c.debugPrint("Player Wins!", 0)
+            self.gameState="win"
+            self.playerScore += 1
+        elif self.uic.cpuThrow == self.uic.playerThrow:
+            c.debugPrint("Draw", 0)
+            self.gameState="draw"
+        else:
+            c.debugPrint("Cpu Wins!", 0)
+            self.gameState="loss"
+            self.cpuScore += 1
